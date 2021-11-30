@@ -1,7 +1,7 @@
 # CutoutKit
 沉浸式状态栏+刘海屏适配组件
 
-#### 在基类`BaseActivity`中有如下方法
+#### 在基类`BaseActivity`中添加如下方法
 ```java
 public class BaseActivity extends AppCompatActivity {
     @Override
