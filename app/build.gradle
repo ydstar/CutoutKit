@@ -37,5 +37,5 @@ dependencies {
 
     implementation 'com.android.ydkit:navigationbar-kit:1.0.0'
 //    implementation project(path: ':cutout-kit')
-    implementation 'com.github.ydstar:CutoutKit:v1.0.0'
+    implementation 'com.github.ydstar:CutoutKit:1.0.0'
 }
