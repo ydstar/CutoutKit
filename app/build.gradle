@@ -36,5 +36,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation 'com.android.ydkit:navigationbar-kit:1.0.0'
-    implementation project(path: ':cutout-kit')
+//    implementation project(path: ':cutout-kit')
+    implementation 'com.github.ydstar:CutoutKit:v1.0.0'
 }
