@@ -1,6 +1,27 @@
 # CutoutKit
 沉浸式状态栏+刘海屏适配组件
 
+
+## 导入方式
+
+仅支持`AndroidX`
+```
+dependencies {
+     implementation 'com.github.ydstar:CutoutKit:1.0.0'
+}
+```
+
+```
+allprojects {
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
+	}
+}
+```
+
+
+## 使用方法
 #### 在基类`BaseActivity`中添加如下方法
 ```java
 public class BaseActivity extends AppCompatActivity {
