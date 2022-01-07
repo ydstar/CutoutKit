@@ -22,11 +22,17 @@ import java.util.ArrayList;
 @TargetApi(Build.VERSION_CODES.O)
 public class OppoCutoutScreen implements CutoutScreen {
 
+    /**
+     * OPPO刘海
+     * The constant NOTCH_OPPO.
+     */
+    private static final String NOTCH_OPPO = "com.oppo.feature.screen.heteromorphism";
+
     @Override
     public boolean hasCutout(Activity activity) {
         boolean ret = false;
         try {
-            ret = activity.getPackageManager().hasSystemFeature("com.oppo.feature.screen.heteromorphism");
+            ret = activity.getPackageManager().hasSystemFeature(NOTCH_OPPO);
         } catch (Throwable ignore) {
         }
         return ret;
@@ -42,7 +48,7 @@ public class OppoCutoutScreen implements CutoutScreen {
                 if (view == null) {
                     return;
                 }
-                view.setPadding(0,0,0,0);
+                view.setPadding(0, 0, 0, 0);
             }
         });
     }

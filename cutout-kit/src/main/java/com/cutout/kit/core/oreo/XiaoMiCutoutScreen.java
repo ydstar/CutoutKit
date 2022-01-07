@@ -1,5 +1,6 @@
 package com.cutout.kit.core.oreo;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -23,15 +24,31 @@ import java.util.ArrayList;
 @TargetApi(Build.VERSION_CODES.O)
 public class XiaoMiCutoutScreen implements CutoutScreen {
 
+    /**
+     * 系统属性
+     * The constant SYSTEM_PROPERTIES.
+     */
+    private static final String SYSTEM_PROPERTIES = "android.os.SystemProperties";
+
+    /**
+     * 小米刘海
+     * The constant NOTCH_XIAO_MI.
+     */
+    private static final String NOTCH_XIAO_MI = "ro.miui.notch";
+
     @Override
     public boolean hasCutout(Activity activity) {
+        int result = 0;
         try {
-            Method getInt = Class.forName("android.os.SystemProperties").getMethod("getInt", String.class, int.class);
-            int notch = (int) getInt.invoke(null, "ro.miui.notch", 0);
-            return notch == 1;
-        } catch (Throwable ignore) {
+            ClassLoader classLoader = activity.getClassLoader();
+            @SuppressLint("PrivateApi")
+            Class<?> aClass = classLoader.loadClass(SYSTEM_PROPERTIES);
+            Method method = aClass.getMethod("getInt", String.class, int.class);
+            result = (Integer) method.invoke(aClass, NOTCH_XIAO_MI, 0);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-        return false;
+        return result == 1;
     }
 
     @Override

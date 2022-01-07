@@ -1,11 +1,11 @@
 package com.cutout.kit.core.oreo;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 
 import com.cutout.kit.core.CutoutScreen;
@@ -23,19 +23,26 @@ import java.util.ArrayList;
 @TargetApi(Build.VERSION_CODES.O)
 public class VivoCutoutScreen implements CutoutScreen {
 
+    /**
+     * VIVO刘海
+     * The constant NOTCH_VIVO.
+     */
+    private static final String NOTCH_VIVO = "android.util.FtFeature";
+
     @Override
     public boolean hasCutout(Activity activity) {
-        boolean value = false;
+        boolean result = false;
         int mask = 0x00000020;
         try {
-            Class<?> cls = Class.forName("android.util.FtFeature");
-            Method hideMethod = cls.getMethod("isFtFeatureSupport", int.class);
-            Object object = cls.newInstance();
-            value = (boolean) hideMethod.invoke(object, mask);
+            ClassLoader classLoader = activity.getClassLoader();
+            @SuppressLint("PrivateApi")
+            Class<?> aClass = classLoader.loadClass(NOTCH_VIVO);
+            Method method = aClass.getMethod("isFeatureSupport", int.class);
+            result = (boolean) method.invoke(aClass, mask);
         } catch (Exception e) {
-            Log.e("tag", "get error() ", e);
+            e.printStackTrace();
         }
-        return value;
+        return result;
     }
 
     @Override
@@ -48,7 +55,7 @@ public class VivoCutoutScreen implements CutoutScreen {
                 if (view == null) {
                     return;
                 }
-                view.setPadding(0,0,0,0);
+                view.setPadding(0, 0, 0, 0);
             }
         });
     }
