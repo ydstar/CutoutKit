@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.cutout.kit.CutoutScreenManager;
-import com.cutout.kit.StatusBarUtil;
+import com.cutout.kit.immersionbar.ImmersionBar;
 import com.navigationbar.kit.NavigationBarKit;
 
 public class ThirdActivity extends BaseActivity {
@@ -67,7 +67,12 @@ public class ThirdActivity extends BaseActivity {
 
     @Override
     protected void setStatusBar() {
-        StatusBarUtil.setTransparent(this);
-        StatusBarUtil.setLightMode(this);
+//        StatusBarUtil.setTransparent(this);
+//        StatusBarUtil.setLightMode(this);
+
+        ImmersionBar.with(this)
+                .transparentStatusBar()
+                .statusBarDarkFont(true)
+                .init();
     }
 }

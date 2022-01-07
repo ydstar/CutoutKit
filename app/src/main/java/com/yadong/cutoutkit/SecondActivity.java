@@ -1,9 +1,8 @@
 package com.yadong.cutoutkit;
 
 import android.os.Bundle;
-import android.view.View;
 
-import com.cutout.kit.StatusBarUtil;
+import com.cutout.kit.immersionbar.ImmersionBar;
 
 public class SecondActivity extends BaseActivity {
 
@@ -21,7 +20,9 @@ public class SecondActivity extends BaseActivity {
 
     @Override
     protected void setStatusBar() {
-        StatusBarUtil.setTransparent(this);
-        StatusBarUtil.setDarkMode(this);
+        ImmersionBar.with(this)
+                .transparentStatusBar()
+                .statusBarDarkFont(false)
+                .init();
     }
 }

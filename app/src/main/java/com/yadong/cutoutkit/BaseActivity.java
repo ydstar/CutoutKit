@@ -1,13 +1,12 @@
 package com.yadong.cutoutkit;
 
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cutout.kit.CutoutScreenManager;
-import com.cutout.kit.StatusBarUtil;
+import com.cutout.kit.immersionbar.ImmersionBar;
 
 /**
  * Author: 侯亚东
@@ -23,7 +22,6 @@ public class BaseActivity extends AppCompatActivity {
         setStatusBar();
         super.onCreate(savedInstanceState);
     }
-
 
     /**
      * 设置刘海屏,默认适配刘海屏和普通屏幕(子类可以重写该方法)
@@ -41,9 +39,9 @@ public class BaseActivity extends AppCompatActivity {
      * 设置状态栏,默认白底黑字(子类可以重写该方法)
      */
     protected void setStatusBar() {
-        //状态栏底部颜色为白色
-        StatusBarUtil.setColor(this, Color.WHITE, 0);
-        //状态栏字体为黑色
-        StatusBarUtil.setLightMode(this);
+        ImmersionBar.with(this)
+                .statusBarColor(R.color.white)//状态栏底部颜色为白色
+                .statusBarDarkFont(true)//状态栏字体为黑色
+                .init();
     }
 }
