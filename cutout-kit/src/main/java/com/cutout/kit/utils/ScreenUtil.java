@@ -141,7 +141,13 @@ public class ScreenUtil {
      * @return navigationBar高度
      */
     public static int getNavigationBarHeight(Context context) {
-        return getDimensionPixel(context, "navigation_bar_height");
+        int result = 0;
+        Resources resources = context.getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = resources.getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     /**
@@ -151,16 +157,26 @@ public class ScreenUtil {
      * @return 状态栏高度
      */
     public static int getStatusBarHeight(Context context) {
-        return getDimensionPixel(context, "status_bar_height");
-    }
-
-    private static int getDimensionPixel(Context context, String navigation_bar_height) {
         int result = 0;
-        Resources resources = context.getResources();
-        int resourceId = resources.getIdentifier(navigation_bar_height, "dimen", "android");
-        if (resourceId > 0) {
-            result = resources.getDimensionPixelSize(resourceId);
+        try {
+            int resourceId = Resources.getSystem().getIdentifier("status_bar_height", "dimen", "android");
+            if (resourceId > 0) {
+                int sizeOne = context.getResources().getDimensionPixelSize(resourceId);
+                int sizeTwo = Resources.getSystem().getDimensionPixelSize(resourceId);
+
+                if (sizeTwo >= sizeOne) {
+                    return sizeTwo;
+                } else {
+                    float densityOne = context.getResources().getDisplayMetrics().density;
+                    float densityTwo = Resources.getSystem().getDisplayMetrics().density;
+                    float f = sizeOne * densityTwo / densityOne;
+                    return (int) ((f >= 0) ? (f + 0.5f) : (f - 0.5f));
+                }
+            }
+        } catch (Resources.NotFoundException ignored) {
+            return 0;
         }
         return result;
     }
+
 }

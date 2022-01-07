@@ -29,8 +29,12 @@ import java.util.List;
 public class CutoutScreenManager {
 
     private final CutoutScreen mCutoutScreen;
-    private int mStatusBarHeight;
     private boolean mIsInit = false;
+
+    //刘海高度
+    private int mCutOutBarHeight;
+    //状态栏高度
+    private int mStatusBarHeight;
 
     private CutoutScreenManager() {
         mCutoutScreen = getCutoutScreen();
@@ -85,17 +89,19 @@ public class CutoutScreenManager {
      */
     private void handleCutoutScreen(final CutoutScreenInfo info, Activity activity, boolean isFullScreen) {
         final View view = ScreenUtil.getContentFirstChild(activity);
+        mStatusBarHeight = ScreenUtil.getStatusBarHeight(activity);
         for (final Rect rect : info.cutoutRectList) {
             if (rect.top == 0) {
-                mStatusBarHeight = rect.bottom;
+                mCutOutBarHeight = rect.bottom;
                 if (isFullScreen) {
                     return;
                 }
                 if (view == null) {
                     return;
                 }
+                int max = Math.max(mStatusBarHeight, mCutOutBarHeight);
                 ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-                layoutParams.topMargin = rect.bottom;
+                layoutParams.topMargin = max;
                 view.setLayoutParams(layoutParams);
                 return;
             }
@@ -106,8 +112,8 @@ public class CutoutScreenManager {
      * 处理普通屏幕
      */
     private void handleDefaultScreen(Activity activity, boolean isFullScreen) {
-        int statusBarHeight = ScreenUtil.getStatusBarHeight(activity);
-        mStatusBarHeight = statusBarHeight;
+        mStatusBarHeight = ScreenUtil.getStatusBarHeight(activity);
+        mCutOutBarHeight = 0;
         if (isFullScreen) {
             return;
         }
@@ -115,7 +121,7 @@ public class CutoutScreenManager {
         if (view == null) {
             return;
         }
-        view.setPadding(0, statusBarHeight, 0, 0);
+        view.setPadding(0, mStatusBarHeight, 0, 0);
     }
 
     /**
@@ -149,13 +155,13 @@ public class CutoutScreenManager {
     }
 
     /**
-     * 获取刘海或状态栏的高度
+     * 获取刘海屏手机刘海高度或者普通非刘海屏手机的状态栏高度
      *
      * @return int
      */
-    public int getStatusBarHeight() {
+    public int getTopStatusBarHeight() {
         check();
-        return mStatusBarHeight;
+        return Math.max(mCutOutBarHeight, mStatusBarHeight);
     }
 
     private void check() {

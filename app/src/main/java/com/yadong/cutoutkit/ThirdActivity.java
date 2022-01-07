@@ -7,8 +7,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.cutout.kit.CutoutScreenManager;
 import com.cutout.kit.immersionbar.ImmersionBar;
+import com.cutout.kit.utils.ScreenUtil;
 import com.navigationbar.kit.NavigationBarKit;
 
 public class ThirdActivity extends BaseActivity {
@@ -55,7 +55,8 @@ public class ThirdActivity extends BaseActivity {
     }
 
     private void setScreen() {
-        int statusBarHeight = CutoutScreenManager.getInstance().getStatusBarHeight();
+        int statusBarHeight = ScreenUtil.getStatusBarHeight(this);
+        Toast.makeText(this,statusBarHeight+"",Toast.LENGTH_SHORT).show();
         mLinearLayout.setPadding(0, statusBarHeight, 0, 0);
         mLinearLayout.setBackgroundColor(Color.WHITE);
     }
@@ -67,9 +68,6 @@ public class ThirdActivity extends BaseActivity {
 
     @Override
     protected void setStatusBar() {
-//        StatusBarUtil.setTransparent(this);
-//        StatusBarUtil.setLightMode(this);
-
         ImmersionBar.with(this)
                 .transparentStatusBar()
                 .statusBarDarkFont(true)
