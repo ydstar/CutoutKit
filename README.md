@@ -7,7 +7,7 @@
 仅支持`AndroidX`
 ```
 dependencies {
-     implementation 'com.github.ydstar:CutoutKit:1.0.0'
+     implementation 'com.github.ydstar:CutoutKit:1.0.1'
 }
 ```
 
